@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>
+            manager
+        </title>
+    </head>
+
+    <body>
+        <h1>Manage Staff</h1>
+        <form method = "get" action="{% url 'manage_staff' %}">
+            <label for="staff_id">search by Staff ID</label>
+            <input type="number" name="staff_id" id="staff_id">
+            <button type="submit">Search</button>
+        </form>
+        {% if searched %}
+            {% if searched_staff %}
+                <h4>Staff found:</h4>
+                <table border="1">
+                    <tr>
+                        <th>Staff ID</th>
+                        <th>Name</th>
+                        <th>Contact No</th>
+                        <th>Address</th>
+                    </tr> 
+                    <tr>
+                        <td>{{searched_staff.staff_id}}</td>
+                        <td><a href="{% url 'staff_member' searched_staff.staff_id %}">{{searched_staff.f_name}} {{searched_staff.l_name}}</a></td>
+                        <td>{{searched_staff.contact_no}}</td>
+                        <td>{{searched_staff.address}}</td>
+                    </tr>
+                </table>
+            {% else %}
+                <p>No staff found with that ID</p>
+            {% endif %}
+        {% endif %}
+        </br>
+        <p align="right"><a href="{% url 'add_staff_member' %}">+Add new member</a></p>
+        <table border="1">
+            <caption><b>All Staff Members</b></caption>
+            <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Contact No</th>
+                <th>Address</th>
+            </tr>
+            {% for staff in staff_members %}
+            <tr>
+                <td>{{staff.staff_id}}</td>
+                <td><a href="{% url 'staff_member' staff.staff_id %}">{{ staff.f_name }} {{ staff.l_name }}</a></td>
+                <td>{{staff.contact_no}}</td>
+                <td>{{staff.address}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>
+            manager
+        </title>
+    </head>
+
+    <body>
+        <h1>Edit {{staff.f_name}}'s {{staff_or_salary}}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ edit_form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </body>
+</html>

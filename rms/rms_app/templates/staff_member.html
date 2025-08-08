@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <title>manager</title>
+  </head>
+
+  <body>
+    <p>
+      <big
+        >Staff Member:
+        <strong>{{ staff.f_name }} {{ staff.l_name }}</strong></big
+      >
+    </p>
+    <table border="1">
+      <tr>
+        <th>Staff ID</th>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Contact No</th>
+        <th>Manager</th>
+        <th>State</th>
+      </tr>
+      <tr>
+        <td>{{ staff.staff_id }}</td>
+        <td>{{category}} - {{rank}}</td>
+        <td>{{ staff.f_name }} {{ staff.l_name }}</td>
+        <td>{{ staff.address}}</td>
+        <td>{{staff.contact_no}}</td>
+        <td>{{manager.f_name}} {{manager.l_name}}</td>
+        <td>{{state}}</td>
+        <td rowspan="2">
+          <form
+            action="{% url 'edit_staff_info' staff.staff_id %}"
+            method="get"
+          >
+            <input type="hidden" name="staff_or_salary" value="staff info" />
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      <big
+        ><strong
+          >{{staff.f_name}} {{staff.l_name}}'s Salary Infomation</strong
+        ></big
+      >
+    </p>
+
+    <table border="1">
+      <tr>
+        <th>Salary ID</th>
+        <th>Basic</th>
+        <th>Bonus</th>
+        <th>Overtime Rate(per hour)</th>
+        <th>Overtime Payment</th>
+        <th>Epf_employee</th>
+        <th>Gross Salary</th>
+        <th>Net Salary</th>
+      </tr>
+      <tr>
+        <td>{{ salary.salary_id }}</td>
+        <td>{{ salary.basic }}</td>
+        <td>{{ salary.bonus }}</td>
+        <td>{{ salary.overtime_rate }}</td>
+        <td>{{ salary.overtime }}</td>
+        <td>{{ salary.epf_employee }}</td>
+        <td>{{ salary.gross_salary }}</td>
+        <td>{{ salary.net_salary }}</td>
+        <td rowspan="2">
+          <form
+            action="{% url 'edit_staff_info' staff.staff_id %}"
+            method="get"
+          >
+            <input type="hidden" name="staff_or_salary" value="salary info" />
+            <button type="submit">Edit</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      <big
+        ><strong
+          >{{staff.f_name}} {{staff.l_name}}'s Attendance Infomation</strong
+        ></big
+      >
+    </p>
+    <form method="get" action="{% url 'staff_member' staff.staff_id %}">
+      <lable for="date">from</lable>
+      <input type="date" id="from_date" name="from_date" />
+
+      <lable for="date">to</lable>
+      <input type="date" id="to_date" name="to_date" />
+      <button type="submit">Search</button>
+    </form>
+
+    {% if is_searched %}
+    <p>From {{from_date}} To {{to_date}}</p>
+    <table border="1">
+      <tr>
+        <th>Date and Time</th>
+        <th>Attendance</th>
+        <th>Over time hours</th>
+      </tr>
+      {% for attendance in formatted_attendances %}
+      <tr>
+        <td>{{attendance.date}}</td>
+        <td>{{attendance.data.0}}</td>
+        <td>{{attendance.data.1}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p>Total present Days - {{p}}</p>
+    <p>Total Absent Days - {{a}}</p>
+    <p>Total On Leave Days - {{l}}</p>
+    <p>Total Over Times Hours - {{total_overtimes}}</p>
+    {% else %}
+    <p>Enter from date and to date to get the attendance</p>
+    {% endif %}
+  </body>
+</html>
